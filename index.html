@@ -2,89 +2,212 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard Sekolah</title>
+  <title>SD Negeri 032 Mumugo</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f4f4f4; }
-    header { background: #007bff; color: white; padding: 1rem; text-align: center; }
-    .container { max-width: 900px; margin: auto; padding: 1rem; }
-    .login-box, .dashboard { background: white; padding: 2rem; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-    .hidden { display: none; }
-    nav button { margin-right: 1rem; padding: 0.5rem 1rem; border: none; background: #007bff; color: white; border-radius: 4px; cursor: pointer; }
-    table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
-    th, td { padding: 0.5rem; border: 1px solid #ddd; text-align: left; }
-    h2 { margin-top: 2rem; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #f0f0f0;
+    }
+    header {
+      background-color: #1e1e1e;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 2px solid #2196f3;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+    header p {
+      margin: 5px 0 0;
+      font-size: 14px;
+      color: #bbb;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #1e1e1e;
+      padding: 10px;
+      flex-wrap: wrap;
+    }
+    nav button {
+      background-color: #2196f3;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin: 5px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    nav button:hover {
+      background-color: #1976d2;
+    }
+    main {
+      padding: 20px;
+    }
+    section {
+      display: none;
+    }
+    .active {
+      display: block;
+    }
+    select, input, textarea, button.admin-btn {
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 6px;
+      border: none;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    th, td {
+      border: 1px solid #333;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #1e1e1e;
+    }
+    .kelas-btn {
+      margin: 5px;
+      background-color: #2196f3;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
   <header>
-    <h1>Aplikasi Sekolah</h1>
-  </header>
-  <div class="container"><div class="login-box" id="loginBox">
-  <h2>Login</h2>
-  <input type="text" id="username" placeholder="Nama Pengguna"><br><br>
-  <input type="password" id="password" placeholder="Kata Sandi"><br><br>
-  <button onclick="login()">Masuk</button>
-</div>
+    <h1>SD Negeri 032 Mumugo</h1>
+    <p>Jl. Karya Lestari, Mumugo, Kec. Tanah Putih, Kab. Rokan Hilir, Riau</p>
+  </header>  <nav>
+    <button onclick="tampilkan('beranda')">Beranda</button>
+    <button onclick="tampilkan('siswa')">Daftar Siswa</button>
+    <button onclick="tampilkan('jadwal')">Jadwal Pelajaran</button>
+    <button onclick="tampilkan('admin')">Panel Admin</button>
+  </nav>  <main>
+    <section id="beranda" class="active">
+      <h2>Selamat Datang di Website SD Negeri 032 Mumugo</h2>
+      <p>Silakan pilih menu di atas untuk melihat informasi siswa, jadwal, atau masuk ke panel admin.</p>
+    </section><section id="siswa">
+  <h2>Daftar Siswa per Kelas</h2>
+  <div id="kelasButtons"></div>
+  <div id="daftarSiswa"></div>
+</section>
 
-<div class="dashboard hidden" id="dashboard">
-  <nav>
-    <button onclick="showSection('jadwal')">Jadwal</button>
-    <button onclick="showSection('siswa')">Daftar Siswa</button>
-    <button onclick="showSection('pengumuman')">Pengumuman</button>
-    <button onclick="logout()" style="float:right;background:#dc3545;">Keluar</button>
-  </nav>
+<section id="jadwal">
+  <h2>Jadwal Pelajaran</h2>
+  <div id="jadwalButtons"></div>
+  <div id="tabelJadwal"></div>
+</section>
 
-  <div id="jadwal" class="section">
-    <h2>Jadwal Pelajaran</h2>
-    <table>
-      <tr><th>Hari</th><th>Mata Pelajaran</th><th>Jam</th></tr>
-      <tr><td>Senin</td><td>Matematika</td><td>08:00 - 09:30</td></tr>
-      <tr><td>Selasa</td><td>IPA</td><td>08:00 - 09:30</td></tr>
-    </table>
-  </div>
+<section id="admin">
+  <h2>Panel Admin</h2>
+  <h3>Tambah Siswa</h3>
+  <select id="kelasInput"></select>
+  <input type="text" id="namaInput" placeholder="Nama Siswa">
+  <input type="text" id="alamatInput" placeholder="Tempat Tinggal">
+  <button class="admin-btn" onclick="tambahSiswa()">Tambah</button>
 
-  <div id="siswa" class="section hidden">
-    <h2>Daftar Siswa</h2>
-    <table>
-      <tr><th>Nama</th><th>Kelas</th><th>NIS</th></tr>
-      <tr><td>Rina Sari</td><td>7A</td><td>001</td></tr>
-      <tr><td>Budi Santoso</td><td>7A</td><td>002</td></tr>
-    </table>
-  </div>
+  <h3>Tambah Jadwal Pelajaran</h3>
+  <select id="kelasJadwalInput"></select>
+  <input type="text" id="hariInput" placeholder="Hari">
+  <input type="text" id="mapelInput" placeholder="Mata Pelajaran">
+  <input type="text" id="jamInput" placeholder="Jam (ex: 08:00 - 09:30)">
+  <button class="admin-btn" onclick="tambahJadwal()">Tambah Jadwal</button>
+</section>
 
-  <div id="pengumuman" class="section hidden">
-    <h2>Pengumuman</h2>
-    <ul>
-      <li>Ujian Tengah Semester dimulai tanggal 15 Mei.</li>
-      <li>Libur Nasional tanggal 1 Juni.</li>
-    </ul>
-  </div>
+  </main>  <script>
+    const dataSiswa = {
+      1: [], 2: [], 3: [], 4: [], 5: [], 6: []
+    };
 
-</div>
+    const dataJadwal = {
+      1: [], 2: [], 3: [], 4: [], 5: [], 6: []
+    };
 
-  </div>  <script>
-    const loginBox = document.getElementById('loginBox');
-    const dashboard = document.getElementById('dashboard');
+    function tampilkan(id) {
+      document.querySelectorAll('main section').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      if (id === 'siswa') tampilkanTombolKelas();
+      if (id === 'jadwal') tampilkanTombolJadwal();
+    }
 
-    function login() {
-      const user = document.getElementById('username').value;
-      const pass = document.getElementById('password').value;
-      if (user === "admin" && pass === "123") {
-        loginBox.classList.add('hidden');
-        dashboard.classList.remove('hidden');
-      } else {
-        alert("Nama pengguna atau kata sandi salah!");
+    function tampilkanTombolKelas() {
+      const container = document.getElementById('kelasButtons');
+      container.innerHTML = '';
+      for (let i = 1; i <= 6; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'kelas-btn';
+        btn.textContent = `Kelas ${i}`;
+        btn.onclick = () => tampilkanSiswa(i);
+        container.appendChild(btn);
       }
     }
 
-    function logout() {
-      dashboard.classList.add('hidden');
-      loginBox.classList.remove('hidden');
+    function tampilkanSiswa(kelas) {
+      const list = dataSiswa[kelas].map(s => `<tr><td>${s.nama}</td><td>${s.alamat}</td></tr>`).join('');
+      document.getElementById('daftarSiswa').innerHTML = `
+        <h3>Kelas ${kelas} - Jumlah: ${dataSiswa[kelas].length}</h3>
+        <table><tr><th>Nama</th><th>Tempat Tinggal</th></tr>${list}</table>
+      `;
     }
 
-    function showSection(sectionId) {
-      document.querySelectorAll('.section').forEach(sec => sec.classList.add('hidden'));
-      document.getElementById(sectionId).classList.remove('hidden');
+    function tampilkanTombolJadwal() {
+      const container = document.getElementById('jadwalButtons');
+      container.innerHTML = '';
+      for (let i = 1; i <= 6; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'kelas-btn';
+        btn.textContent = `Kelas ${i}`;
+        btn.onclick = () => tampilkanJadwal(i);
+        container.appendChild(btn);
+      }
     }
+
+    function tampilkanJadwal(kelas) {
+      const list = dataJadwal[kelas].map(j => `<tr><td>${j.hari}</td><td>${j.mapel}</td><td>${j.jam}</td></tr>`).join('');
+      document.getElementById('tabelJadwal').innerHTML = `
+        <h3>Jadwal Kelas ${kelas}</h3>
+        <table><tr><th>Hari</th><th>Mata Pelajaran</th><th>Jam</th></tr>${list}</table>
+      `;
+    }
+
+    function tambahSiswa() {
+      const kelas = parseInt(document.getElementById('kelasInput').value);
+      const nama = document.getElementById('namaInput').value.trim();
+      const alamat = document.getElementById('alamatInput').value.trim();
+      if (nama && alamat) {
+        dataSiswa[kelas].push({ nama, alamat });
+        alert('Siswa ditambahkan!');
+      }
+    }
+
+    function tambahJadwal() {
+      const kelas = parseInt(document.getElementById('kelasJadwalInput').value);
+      const hari = document.getElementById('hariInput').value.trim();
+      const mapel = document.getElementById('mapelInput').value.trim();
+      const jam = document.getElementById('jamInput').value.trim();
+      if (hari && mapel && jam) {
+        dataJadwal[kelas].push({ hari, mapel, jam });
+        alert('Jadwal ditambahkan!');
+      }
+    }
+
+    function isiDropdowns() {
+      for (let i = 1; i <= 6; i++) {
+        document.getElementById('kelasInput').innerHTML += `<option value="${i}">Kelas ${i}</option>`;
+        document.getElementById('kelasJadwalInput').innerHTML += `<option value="${i}">Kelas ${i}</option>`;
+      }
+    }
+
+    isiDropdowns();
   </script></body>
 </html>
