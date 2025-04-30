@@ -1,8 +1,7 @@
-<!DOCTYPE html>
-<html lang="id">
+<!DOCTYPE html><html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>SD Negeri 032 Mamugo</title>
   <style>
     body {
@@ -10,232 +9,182 @@
       margin: 0;
       background-color: #121212;
       color: white;
-      padding: 0;
     }
-
     header {
       background-color: #1e1e1e;
       padding: 1rem;
       text-align: center;
     }
-
+    header h1 {
+      font-size: 1.8rem;
+      margin: 0;
+    }
     nav {
       background-color: #1e1e1e;
-      padding: 1rem;
+      padding: 0.5rem;
       display: flex;
       flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: center;
+      justify-content: space-around;
+      gap: 0.5rem;
     }
-
     nav button {
       background-color: #007bff;
       color: white;
       border: none;
-      padding: 1rem 2rem;
-      font-size: 1.2rem;
+      padding: 0.8rem;
+      font-size: 1rem;
       border-radius: 8px;
       cursor: pointer;
-      width: 100%;
-      margin-bottom: 10px;
+      flex: 1 1 40%;
     }
-
     section {
       padding: 1rem;
     }
-
-    button, input, select, textarea {
-      width: 100%; /* Tombol dan input memenuhi lebar layar */
-      padding: 1rem;
-      font-size: 1rem;
+    .hidden { display: none; }
+    input, select, textarea, button {
+      width: 100%;
+      padding: 0.7rem;
       margin: 0.5rem 0;
       border-radius: 5px;
+      font-size: 1rem;
       border: none;
     }
-
-    @media (max-width: 600px) {
-      button {
-        padding: 1rem 1.5rem;
-      }
-    }
-
-    .hidden {
-      display: none;
+    .preview {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>SD Negeri 032 Mamugo</h1>
-  </header>
-  <nav>
-    <button onclick="showSection('beranda')">Beranda</button>
-    <button onclick="showSection('siswa')">Daftar Siswa</button>
-    <button onclick="showSection('jadwal')">Jadwal</button>
-    <button onclick="showSection('admin')">Panel Admin</button>
-  </nav>
-
-  <!-- BERANDA -->
-  <section id="beranda">
-    <h2>Pengumuman</h2>
-    <div id="daftarPengumuman"></div>
-
-    <h2>Statistik Siswa</h2>
-    <div id="statistikKelas"></div>
-
-    <h2>Agenda Sekolah</h2>
-    <div id="agendaSekolah"></div>
-
-    <h2>Foto Kegiatan Terbaru</h2>
-    <div id="fotoKegiatan"></div>
-
-    <h2>Jam Operasional Sekolah</h2>
-    <p>Jam: 07.30 – 13.00 | Kontak: 0812xxxxxxx</p>
-
-    <h2>Sambutan Kepala Sekolah</h2>
-    <p>Selamat datang di SD Negeri 032 Mamugo. Semoga kalian bisa belajar dengan giat dan penuh semangat!</p>
-  </section>
-
-  <!-- DAFTAR SISWA -->
-  <section id="siswa" class="hidden">
-    <h2>Daftar Siswa per Kelas</h2>
-    <div id="daftarKelas">
-      <label for="kelas">Pilih Kelas: </label>
-      <select id="kelas" onchange="tampilkanSiswa()">
-        <option value="kelas1">Kelas 1</option>
-        <option value="kelas2">Kelas 2</option>
-        <option value="kelas3">Kelas 3</option>
-        <option value="kelas4">Kelas 4</option>
-        <option value="kelas5">Kelas 5</option>
-        <option value="kelas6">Kelas 6</option>
-      </select>
-    </div>
-    <div id="siswaKelas"></div>
-  </section>
-
-  <!-- JADWAL -->
-  <section id="jadwal" class="hidden">
-    <h2>Jadwal Pelajaran per Kelas</h2>
-    <div id="jadwalKelas">
-      <label for="kelasJadwal">Pilih Kelas: </label>
-      <select id="kelasJadwal" onchange="tampilkanJadwal()">
-        <option value="kelas1">Kelas 1</option>
-        <option value="kelas2">Kelas 2</option>
-        <option value="kelas3">Kelas 3</option>
-        <option value="kelas4">Kelas 4</option>
-        <option value="kelas5">Kelas 5</option>
-        <option value="kelas6">Kelas 6</option>
-      </select>
-    </div>
-    <div id="jadwalPerKelas"></div>
-  </section>
-
-  <!-- PANEL ADMIN -->
-  <section id="admin" class="hidden">
-    <h3>Login Admin</h3>
-    <input type="text" id="username" placeholder="Username">
+<header>
+  <h1>SD Negeri 032 Mamugo</h1>
+</header>
+<nav>
+  <button onclick="showSection('beranda')">Beranda</button>
+  <button onclick="showSection('siswa')">Siswa</button>
+  <button onclick="showSection('jadwal')">Jadwal</button>
+  <button onclick="showSection('admin')">Admin</button>
+</nav>
+<section id="beranda">
+  <h2>Selamat Datang di SD Negeri 032 Mamugo</h2>
+  <p id="sambutanKepsek"></p>
+  <div id="pengumuman"></div>
+  <div id="agenda"></div>
+  <div id="statistik"></div>
+  <div id="fotoKegiatan"></div>
+  <p><strong>Jam Operasional:</strong> 07.30 - 13.00</p>
+  <p><strong>Kontak:</strong> 0812xxxxxxx</p>
+</section>
+<section id="siswa" class="hidden">
+  <h2>Daftar Siswa</h2>
+  <select id="kelasSelector" onchange="tampilkanSiswa()">
+    <option value="">-- Pilih Kelas --</option>
+    <option value="1">Kelas 1</option>
+    <option value="2">Kelas 2</option>
+    <option value="3">Kelas 3</option>
+    <option value="4">Kelas 4</option>
+    <option value="5">Kelas 5</option>
+    <option value="6">Kelas 6</option>
+  </select>
+  <div id="daftarSiswa"></div>
+</section>
+<section id="jadwal" class="hidden">
+  <h2>Jadwal Pelajaran</h2>
+  <select id="kelasJadwal" onchange="tampilkanJadwal()">
+    <option value="">-- Pilih Kelas --</option>
+    <option value="1">Kelas 1</option>
+    <option value="2">Kelas 2</option>
+    <option value="3">Kelas 3</option>
+    <option value="4">Kelas 4</option>
+    <option value="5">Kelas 5</option>
+    <option value="6">Kelas 6</option>
+  </select>
+  <div id="jadwalKelas"></div>
+</section>
+<section id="admin" class="hidden">
+  <h2>Panel Admin</h2>
+  <div id="loginForm">
+    <input type="text" id="username" placeholder="Username Admin">
     <input type="password" id="password" placeholder="Password">
     <button onclick="loginAdmin()">Login</button>
-    <div id="adminPanel" class="hidden">
-      <h3>Tambah Siswa</h3>
-      <input type="text" id="namaSiswa" placeholder="Nama Siswa">
-      <input type="text" id="kelasSiswa" placeholder="Kelas">
-      <input type="text" id="alamatSiswa" placeholder="Alamat Siswa">
-      <button onclick="tambahSiswa()">Tambah Murid</button>
+  </div>
+  <div id="adminPanel" class="hidden">
+    <h3>Tambah Siswa</h3>
+    <select id="kelasInput">
+      <option value="">-- Pilih Kelas --</option>
+      <option value="1">Kelas 1</option>
+      <option value="2">Kelas 2</option>
+      <option value="3">Kelas 3</option>
+      <option value="4">Kelas 4</option>
+      <option value="5">Kelas 5</option>
+      <option value="6">Kelas 6</option>
+    </select>
+    <input type="text" id="namaSiswa" placeholder="Nama Siswa">
+    <input type="text" id="alamatSiswa" placeholder="Tempat Tinggal">
+    <button onclick="tambahSiswa()">Tambah Siswa</button>
+    <h3>Tambah Jadwal Pelajaran</h3>
+    <select id="kelasJadwalInput">
+      <option value="">-- Pilih Kelas --</option>
+      <option value="1">Kelas 1</option>
+      <option value="2">Kelas 2</option>
+      <option value="3">Kelas 3</option>
+      <option value="4">Kelas 4</option>
+      <option value="5">Kelas 5</option>
+      <option value="6">Kelas 6</option>
+    </select>
+    <textarea id="isiJadwal" placeholder="Contoh: Senin - Matematika, Selasa - IPA"></textarea>
+    <button onclick="simpanJadwal()">Simpan Jadwal</button>
+    <h3>Ganti Latar Belakang Beranda</h3>
+    <input type="text" id="bgBeranda" placeholder="URL Foto Latar">
+    <button onclick="gantiBG('beranda')">Simpan Latar</button>
+    <h3>Ganti Latar Kelas</h3>
+    <select id="kelasBgSelect">
+      <option value="1">Kelas 1</option>
+      <option value="2">Kelas 2</option>
+      <option value="3">Kelas 3</option>
+      <option value="4">Kelas 4</option>
+      <option value="5">Kelas 5</option>
+      <option value="6">Kelas 6</option>
+    </select>
+    <input type="text" id="urlBgKelas" placeholder="URL Foto Latar Kelas">
+    <button onclick="gantiBGKelas()">Simpan Latar Kelas</button>
+    <h3>Pengumuman & Agenda</h3>
+    <textarea id="isiPengumuman" placeholder="Tulis pengumuman..."></textarea>
+    <textarea id="isiAgenda" placeholder="Tulis agenda minggu ini..."></textarea>
+    <button onclick="simpanInfo()">Simpan Info</button>
+    <h3>Sambutan Kepala Sekolah</h3>
+    <textarea id="isiSambutan" placeholder="Tulis sambutan..."></textarea>
+    <button onclick="simpanSambutan()">Simpan Sambutan</button>
+  </div>
+</section>
+<script>
+// Data disimpan di localStorage agar tidak hilang saat direfresh
+function showSection(id) {
+  document.querySelectorAll("section").forEach(s => s.classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
+  if (id === 'beranda') updateBeranda();
+}function loginAdmin() { if (document.getElementById("username").value === "admin" && document.getElementById("password").value === "admin") { document.getElementById("adminPanel").classList.remove("hidden"); document.getElementById("loginForm").classList.add("hidden"); } else { alert("Username atau password salah"); } }
 
-      <h3>Tambah Jadwal</h3>
-      <input type="text" id="namaJadwal" placeholder="Mata Pelajaran">
-      <input type="text" id="hariJadwal" placeholder="Hari">
-      <button onclick="tambahJadwal()">Tambah Jadwal</button>
+function tambahSiswa() { const kelas = document.getElementById("kelasInput").value; const nama = document.getElementById("namaSiswa").value; const alamat = document.getElementById("alamatSiswa").value; if (!kelas || !nama) return; const key = "siswa_kelas_" + kelas; let data = JSON.parse(localStorage.getItem(key) || "[]"); data.push({ nama, alamat }); localStorage.setItem(key, JSON.stringify(data)); alert("Siswa ditambahkan"); }
 
-      <h3>Pengumuman</h3>
-      <textarea id="pengumuman" placeholder="Tulis Pengumuman"></textarea>
-      <button onclick="simpanPengumuman()">Simpan Pengumuman</button>
-    </div>
-  </section>
+function tampilkanSiswa() { const kelas = document.getElementById("kelasSelector").value; const key = "siswa_kelas_" + kelas; const data = JSON.parse(localStorage.getItem(key) || "[]"); let html = <p>Jumlah siswa: ${data.length}</p>; html += <ul> + data.map(s => <li>${s.nama} - ${s.alamat}</li>).join("") + </ul>; document.getElementById("daftarSiswa").innerHTML = html; document.body.style.backgroundImage = url('${localStorage.getItem("bg_kelas_" + kelas) || ""}'); }
 
-  <script>
-    let siswa = {
-      kelas1: [],
-      kelas2: [],
-      kelas3: [],
-      kelas4: [],
-      kelas5: [],
-      kelas6: []
-    };
+function simpanJadwal() { const kelas = document.getElementById("kelasJadwalInput").value; const isi = document.getElementById("isiJadwal").value; if (kelas && isi) localStorage.setItem("jadwal_kelas_" + kelas, isi); alert("Jadwal disimpan"); }
 
-    let jadwal = {
-      kelas1: [],
-      kelas2: [],
-      kelas3: [],
-      kelas4: [],
-      kelas5: [],
-      kelas6: []
-    };
+function tampilkanJadwal() { const kelas = document.getElementById("kelasJadwal").value; const isi = localStorage.getItem("jadwal_kelas_" + kelas); document.getElementById("jadwalKelas").innerText = isi || "Belum ada jadwal."; document.body.style.backgroundImage = url('${localStorage.getItem("bg_kelas_" + kelas) || ""}'); }
 
-    let pengumuman = '';
+function gantiBG(halaman) { const url = document.getElementById("bgBeranda").value; if (url) { localStorage.setItem("bg_beranda", url); document.body.style.backgroundImage = url('${url}'); } }
 
-    function showSection(id) {
-      document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
-      document.getElementById(id).classList.remove('hidden');
-    }
+function gantiBGKelas() { const kelas = document.getElementById("kelasBgSelect").value; const url = document.getElementById("urlBgKelas").value; localStorage.setItem("bg_kelas_" + kelas, url); alert("Latar kelas disimpan"); }
 
-    function loginAdmin() {
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      if (username === 'admin' && password === '12345') {
-        document.getElementById('adminPanel').classList.remove('hidden');
-        alert('Login Sukses');
-      } else {
-        alert('Login Gagal');
-      }
-    }
+function simpanInfo() { localStorage.setItem("pengumuman", document.getElementById("isiPengumuman").value); localStorage.setItem("agenda", document.getElementById("isiAgenda").value); alert("Info disimpan"); updateBeranda(); }
 
-    function tambahSiswa() {
-      const nama = document.getElementById('namaSiswa').value;
-      const kelas = document.getElementById('kelasSiswa').value;
-      const alamat = document.getElementById('alamatSiswa').value;
+function simpanSambutan() { localStorage.setItem("sambutan", document.getElementById("isiSambutan").value); updateBeranda(); }
 
-      if (nama && kelas && alamat) {
-        siswa[kelas].push({ nama, alamat });
-        alert('Siswa berhasil ditambahkan!');
-        tampilkanSiswa();
-      } else {
-        alert('Harap lengkapi data siswa');
-      }
-    }
+function updateBeranda() { document.getElementById("pengumuman").innerText = localStorage.getItem("pengumuman") || ""; document.getElementById("agenda").innerText = localStorage.getItem("agenda") || ""; document.getElementById("sambutanKepsek").innerText = localStorage.getItem("sambutan") || ""; let statistik = ""; for (let i = 1; i <= 6; i++) { let data = JSON.parse(localStorage.getItem("siswa_kelas_" + i) || "[]"); statistik += <p>Kelas ${i}: ${data.length} siswa</p>; } document.getElementById("statistik").innerHTML = statistik; document.body.style.backgroundImage = url('${localStorage.getItem("bg_beranda") || ""}'); }
 
-    function tampilkanSiswa() {
-      const kelas = document.getElementById('kelas').value;
-      const daftarSiswa = siswa[kelas].map(s => `<p>${s.nama} - ${s.alamat}</p>`).join('');
-      document.getElementById('siswaKelas').innerHTML = daftarSiswa;
-    }
+updateBeranda(); </script>
 
-    function tambahJadwal() {
-      const mataPelajaran = document.getElementById('namaJadwal').value;
-      const hari = document.getElementById('hariJadwal').value;
-
-      if (mataPelajaran && hari) {
-        const kelas = document.getElementById('kelasJadwal').value;
-        jadwal[kelas].push({ mataPelajaran, hari });
-        alert('Jadwal berhasil ditambahkan!');
-        tampilkanJadwal();
-      } else {
-        alert('Harap lengkapi data jadwal');
-      }
-    }
-
-    function tampilkanJadwal() {
-      const kelas = document.getElementById('kelasJadwal').value;
-      const daftarJadwal = jadwal[kelas].map(j => `<p>${j.mataPelajaran} - ${j.hari}</p>`).join('');
-      document.getElementById('jadwalPerKelas').innerHTML = daftarJadwal;
-    }
-
-    function simpanPengumuman() {
-      pengumuman = document.getElementById('pengumuman').value;
-      document.getElementById('daftarPengumuman').innerHTML = `<p>${pengumuman}</p>`;
-      alert('Pengumuman berhasil disimpan!');
-    }
-  </script>
 </body>
 </html>
