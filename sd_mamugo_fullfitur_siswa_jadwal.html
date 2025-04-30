@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SD Negeri 032 Mamugo</title>
+  <style>
+    body {
+      background-color: #111;
+      color: #fff;
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      background-size: cover;
+      background-position: center;
+    }
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin: 1rem;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    .section {
+      margin: 20px;
+      padding: 10px;
+      background-color: rgba(0,0,0,0.7);
+      border-radius: 10px;
+    }
+    img {
+      max-width: 90%;
+      height: auto;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+  <h1>SD Negeri 032 Mamugo</h1>
+  <div class="menu">
+    <button onclick="showSection('beranda')">Beranda</button>
+    <button onclick="showSection('siswa')">Siswa</button>
+    <button onclick="showSection('jadwal')">Jadwal</button>
+    <button onclick="showSection('galeri')">Galeri</button>
+    <button onclick="showSection('admin')">Admin</button>
+  </div>
+
+  <div id="beranda" class="section">
+    <h2>Selamat Datang di SD Negeri 032 Mamugo</h2>
+    <p><strong>Jam Operasional:</strong> 07.30 - 13.00</p>
+    <p><strong>Kontak:</strong> 0812xxxxxxx</p>
+  </div>
+
+  <div id="siswa" class="section" style="display:none;">
+    <h2>Daftar Siswa</h2>
+    <select onchange="tampilkanSiswa(this.value)">
+      <option value="">-- Pilih Kelas --</option>
+      ${[1,2,3,4,5,6].map(i => `<option value="${i}">Kelas ${i}</option>`).join("")}
+    </select>
+    <div id="daftarSiswa"></div>
+  </div>
+
+  <div id="jadwal" class="section" style="display:none;">
+    <h2>Jadwal Pelajaran</h2>
+    <select onchange="tampilkanJadwal(this.value)">
+      <option value="">-- Pilih Kelas --</option>
+      ${[1,2,3,4,5,6].map(i => `<option value="${i}">Kelas ${i}</option>`).join("")}
+    </select>
+    <div id="daftarJadwal"></div>
+  </div>
+
+  <div id="galeri" class="section" style="display:none;">
+    <h2>Galeri Kegiatan</h2>
+    <div id="galeriFoto"></div>
+  </div>
+
+  <div id="admin" class="section" style="display:none;">
+    <h2>Login Admin</h2>
+    <input type="text" id="adminUser" placeholder="Username"><br><br>
+    <input type="password" id="adminPass" placeholder="Password"><br><br>
+    <button onclick="loginAdmin()">Login</button>
+
+    <div id="adminPanel" style="display:none;">
+      <h3>Ubah Password</h3>
+      <input type="password" id="newPass" placeholder="Password Baru">
+      <button onclick="ubahPassword()">Ubah Password</button>
+
+      <h3>Ganti Latar Belakang Beranda</h3>
+      <input type="text" id="urlLatar" placeholder="URL Gambar Latar">
+      <button onclick="gantiLatar()">Simpan Latar</button>
+
+      <h3>Tambah Foto Galeri</h3>
+      <input type="text" id="urlFoto" placeholder="URL Foto"><br>
+      <input type="text" id="ketFoto" placeholder="Keterangan"><br>
+      <button onclick="tambahFoto()">Tambah Foto</button>
+
+      <h3>Tambah Siswa</h3>
+      <select id="kelasSiswa">${[1,2,3,4,5,6].map(i => `<option value="${i}">Kelas ${i}</option>`).join("")}</select><br>
+      <input type="text" id="namaSiswa" placeholder="Nama Siswa"><br>
+      <input type="text" id="alamatSiswa" placeholder="Alamat"><br>
+      <button onclick="tambahSiswa()">Tambah Siswa</button>
+
+      <h3>Tambah Jadwal</h3>
+      <select id="kelasJadwal">${[1,2,3,4,5,6].map(i => `<option value="${i}">Kelas ${i}</option>`).join("")}</select><br>
+      <textarea id="isiJadwal" placeholder="Contoh: Senin: Matematika, Selasa: IPA"></textarea><br>
+      <button onclick="tambahJadwal()">Simpan Jadwal</button>
+    </div>
+  </div>
+
+  <script>
+    let adminPassword = localStorage.getItem("admin_password") || "admin123";
+
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
+      document.getElementById(id).style.display = 'block';
+      if (id === 'galeri') loadGaleri();
+    }
+
+    function loginAdmin() {
+      const user = document.getElementById("adminUser").value;
+      const pass = document.getElementById("adminPass").value;
+      if (user === "admin" && pass === adminPassword) {
+        document.getElementById("adminPanel").style.display = "block";
+        alert("Login berhasil");
+      } else {
+        alert("Username atau password salah");
+      }
+    }
+
+    function ubahPassword() {
+      const newPass = document.getElementById("newPass").value;
+      if (newPass.length >= 4) {
+        localStorage.setItem("admin_password", newPass);
+        adminPassword = newPass;
+        alert("Password berhasil diubah");
+      } else {
+        alert("Password harus minimal 4 karakter");
+      }
+    }
+
+    function gantiLatar() {
+      const url = document.getElementById("urlLatar").value;
+      if (url) {
+        document.body.style.backgroundImage = "url('" + url + "')";
+        localStorage.setItem("latar_belakang", url);
+        alert("Latar belakang diperbarui");
+      }
+    }
+
+    function tambahFoto() {
+      const url = document.getElementById("urlFoto").value;
+      const ket = document.getElementById("ketFoto").value;
+      if (url && ket) {
+        const galeri = JSON.parse(localStorage.getItem("galeri") || "[]");
+        galeri.push({ url, ket });
+        localStorage.setItem("galeri", JSON.stringify(galeri));
+        alert("Foto ditambahkan");
+        loadGaleri();
+      }
+    }
+
+    function loadGaleri() {
+      const data = JSON.parse(localStorage.getItem("galeri") || "[]");
+      const div = document.getElementById("galeriFoto");
+      div.innerHTML = data.map(d => \`<div><img src="\${d.url}"><p>\${d.ket}</p></div>\`).join("");
+    }
+
+    function tambahSiswa() {
+      const kelas = document.getElementById("kelasSiswa").value;
+      const nama = document.getElementById("namaSiswa").value;
+      const alamat = document.getElementById("alamatSiswa").value;
+      if (kelas && nama && alamat) {
+        let data = JSON.parse(localStorage.getItem("siswa_" + kelas) || "[]");
+        data.push({ nama, alamat });
+        localStorage.setItem("siswa_" + kelas, JSON.stringify(data));
+        alert("Siswa ditambahkan");
+      }
+    }
+
+    function tampilkanSiswa(kelas) {
+      const data = JSON.parse(localStorage.getItem("siswa_" + kelas) || "[]");
+      const div = document.getElementById("daftarSiswa");
+      div.innerHTML = "<h3>Jumlah: " + data.length + " siswa</h3>" + data.map(d => \`<p>\${d.nama} - \${d.alamat}</p>\`).join("");
+    }
+
+    function tambahJadwal() {
+      const kelas = document.getElementById("kelasJadwal").value;
+      const isi = document.getElementById("isiJadwal").value;
+      if (kelas && isi) {
+        localStorage.setItem("jadwal_" + kelas, isi);
+        alert("Jadwal disimpan");
+      }
+    }
+
+    function tampilkanJadwal(kelas) {
+      const isi = localStorage.getItem("jadwal_" + kelas) || "Belum ada jadwal";
+      document.getElementById("daftarJadwal").innerHTML = "<p>" + isi.replaceAll("\n", "<br>") + "</p>";
+    }
+
+    const savedBg = localStorage.getItem("latar_belakang");
+    if (savedBg) document.body.style.backgroundImage = "url('" + savedBg + "')";
+  </script>
+</body>
+</html>
