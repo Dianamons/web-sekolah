@@ -7,11 +7,14 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
+      background-size: cover;
+      background-position: center;
       background-color: #121212;
       color: #f0f0f0;
+      transition: background-image 0.3s ease;
     }
     header {
-      background-color: #1e1e1e;
+      background-color: rgba(0,0,0,0.6);
       padding: 20px;
       text-align: center;
       border-bottom: 2px solid #2196f3;
@@ -28,7 +31,7 @@
     nav {
       display: flex;
       justify-content: center;
-      background-color: #1e1e1e;
+      background-color: rgba(0,0,0,0.6);
       padding: 10px;
       flex-wrap: wrap;
     }
@@ -46,6 +49,8 @@
     }
     main {
       padding: 20px;
+      background-color: rgba(0,0,0,0.6);
+      min-height: 80vh;
     }
     section {
       display: none;
@@ -122,20 +127,32 @@
   <input type="text" id="mapelInput" placeholder="Mata Pelajaran">
   <input type="text" id="jamInput" placeholder="Jam (ex: 08:00 - 09:30)">
   <button class="admin-btn" onclick="tambahJadwal()">Tambah Jadwal</button>
+
+  <h3>Ubah Gambar Latar Belakang</h3>
+  <input type="text" id="bgBeranda" placeholder="URL Gambar Beranda">
+  <input type="text" id="bgKelas" placeholder="URL Gambar untuk Kelas">
+  <select id="kelasBgSelect"></select>
+  <button class="admin-btn" onclick="ubahBackground()">Simpan Latar</button>
 </section>
 
   </main>  <script>
-    const dataSiswa = {
-      1: [], 2: [], 3: [], 4: [], 5: [], 6: []
-    };
+    let dataSiswa = JSON.parse(localStorage.getItem('dataSiswa')) || {1: [], 2: [], 3: [], 4: [], 5: [], 6: []};
+    let dataJadwal = JSON.parse(localStorage.getItem('dataJadwal')) || {1: [], 2: [], 3: [], 4: [], 5: [], 6: []};
+    let latarBelakang = JSON.parse(localStorage.getItem('latarBelakang')) || {beranda: '', kelas: {1:'',2:'',3:'',4:'',5:'',6:''}};
 
-    const dataJadwal = {
-      1: [], 2: [], 3: [], 4: [], 5: [], 6: []
-    };
+    function simpanData() {
+      localStorage.setItem('dataSiswa', JSON.stringify(dataSiswa));
+      localStorage.setItem('dataJadwal', JSON.stringify(dataJadwal));
+      localStorage.setItem('latarBelakang', JSON.stringify(latarBelakang));
+    }
 
     function tampilkan(id) {
       document.querySelectorAll('main section').forEach(s => s.classList.remove('active'));
       document.getElementById(id).classList.add('active');
+
+      if (id === 'beranda') {
+        document.body.style.backgroundImage = `url('${latarBelakang.beranda}')`;
+      }
       if (id === 'siswa') tampilkanTombolKelas();
       if (id === 'jadwal') tampilkanTombolJadwal();
     }
@@ -147,7 +164,10 @@
         const btn = document.createElement('button');
         btn.className = 'kelas-btn';
         btn.textContent = `Kelas ${i}`;
-        btn.onclick = () => tampilkanSiswa(i);
+        btn.onclick = () => {
+          tampilkanSiswa(i);
+          document.body.style.backgroundImage = `url('${latarBelakang.kelas[i] || ''}')`;
+        }
         container.appendChild(btn);
       }
     }
@@ -167,7 +187,10 @@
         const btn = document.createElement('button');
         btn.className = 'kelas-btn';
         btn.textContent = `Kelas ${i}`;
-        btn.onclick = () => tampilkanJadwal(i);
+        btn.onclick = () => {
+          tampilkanJadwal(i);
+          document.body.style.backgroundImage = `url('${latarBelakang.kelas[i] || ''}')`;
+        }
         container.appendChild(btn);
       }
     }
@@ -186,6 +209,7 @@
       const alamat = document.getElementById('alamatInput').value.trim();
       if (nama && alamat) {
         dataSiswa[kelas].push({ nama, alamat });
+        simpanData();
         alert('Siswa ditambahkan!');
       }
     }
@@ -197,17 +221,30 @@
       const jam = document.getElementById('jamInput').value.trim();
       if (hari && mapel && jam) {
         dataJadwal[kelas].push({ hari, mapel, jam });
+        simpanData();
         alert('Jadwal ditambahkan!');
       }
+    }
+
+    function ubahBackground() {
+      const urlBeranda = document.getElementById('bgBeranda').value.trim();
+      const urlKelas = document.getElementById('bgKelas').value.trim();
+      const kelasTarget = parseInt(document.getElementById('kelasBgSelect').value);
+      if (urlBeranda) latarBelakang.beranda = urlBeranda;
+      if (urlKelas) latarBelakang.kelas[kelasTarget] = urlKelas;
+      simpanData();
+      alert('Latar belakang diperbarui!');
     }
 
     function isiDropdowns() {
       for (let i = 1; i <= 6; i++) {
         document.getElementById('kelasInput').innerHTML += `<option value="${i}">Kelas ${i}</option>`;
         document.getElementById('kelasJadwalInput').innerHTML += `<option value="${i}">Kelas ${i}</option>`;
+        document.getElementById('kelasBgSelect').innerHTML += `<option value="${i}">Kelas ${i}</option>`;
       }
     }
 
     isiDropdowns();
+    document.body.style.backgroundImage = `url('${latarBelakang.beranda}')`;
   </script></body>
 </html>
