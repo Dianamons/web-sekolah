@@ -1,168 +1,119 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SD Negeri 032 Mamugo</title>
   <style>
     body {
       background-color: #111;
       color: white;
-      font-family: Arial, sans-serif;
+      font-family: sans-serif;
       margin: 0;
       padding: 0;
     }
-    header {
-      text-align: center;
-      padding: 20px 10px 50px;
+    .navbar {
       background-color: #000;
-      position: relative;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+    }
+    .navbar h1 {
+      margin: 0;
+      font-size: 20px;
     }
     .menu {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 20px;
+      display: none;
+      flex-direction: column;
+      background-color: #000;
+      position: absolute;
+      right: 10px;
+      top: 50px;
+      border: 1px solid #333;
+      z-index: 1;
     }
-    .menu button {
-      background-color: #007BFF;
+    .menu a {
       color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    .content {
+      text-decoration: none;
       padding: 10px;
+      background: #007bff;
+      margin: 5px;
+      text-align: center;
+    }
+    .menu a:hover {
+      background: #0056b3;
+    }
+    .hamburger {
+      font-size: 24px;
+      cursor: pointer;
     }
     .section {
       display: none;
-      margin-top: 20px;
+      padding: 20px;
     }
     .section.active {
       display: block;
     }
-    .card {
-      background-color: #222;
-      padding: 20px;
-      border-radius: 10px;
-      margin: 10px auto;
-      max-width: 600px;
-    }
-    .dropdown {
-      margin: 10px 0;
-    }
-    .dropdown select {
-      padding: 8px;
-      border-radius: 6px;
-      border: none;
-    }
-    .menu-toggle {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-    }
-    #adminMenu {
-      display: none;
-      background-color: #222;
-      border: 1px solid #444;
-      border-radius: 6px;
-      padding: 10px;
-      position: absolute;
-      right: 0;
-      top: 40px;
-    }
-    #adminMenu button {
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 4px;
-      cursor: pointer;
-    }
   </style>
 </head>
 <body>
-  <header>
+
+  <div class="navbar">
     <h1>SD Negeri 032 Mamugo</h1>
-    <div class="menu">
-      <button onclick="showSection('beranda')">Beranda</button>
-      <button onclick="showSection('siswa')">Siswa</button>
-      <button onclick="showSection('jadwal')">Jadwal</button>
-      <button onclick="showSection('galeri')">Galeri</button>
+    <div class="hamburger" onclick="toggleMenu()">☰</div>
+    <div class="menu" id="menu">
+      <a href="#beranda" onclick="showSection('beranda')">Beranda</a>
+      <a href="#siswa" onclick="showSection('siswa')">Siswa</a>
+      <a href="#jadwal" onclick="showSection('jadwal')">Jadwal</a>
+      <a href="#galeri" onclick="showSection('galeri')">Galeri</a>
+      <a href="#admin" onclick="showSection('admin')">Admin</a>
     </div>
-    <div class="menu-toggle">
-      <button onclick="toggleAdminMenu()" style="background: none; border: none; font-size: 24px; color: white; cursor: pointer;">&#9776;</button>
-      <div id="adminMenu">
-        <button onclick="showSection('admin')">Admin</button>
-      </div>
-    </div>
-  </header>  <div class="content">
-    <div id="beranda" class="section active">
-      <div class="card">
-        <h2>Selamat Datang di SD Negeri 032 Mamugo</h2>
-        <p><strong>Jam Operasional:</strong> 07.30 - 13.00</p>
-        <p><strong>Kontak:</strong> 0812xxxxxxxx</p>
-      </div>
-    </div><div id="siswa" class="section">
-  <div class="card">
+  </div>
+
+  <div id="beranda" class="section active">
+    <h2>Selamat Datang di SD Negeri 032 Mamugo</h2>
+    <p><strong>Jam Operasional:</strong> 07.30 - 13.00</p>
+    <p><strong>Kontak:</strong> 0812xxxxxxxx</p>
+  </div>
+
+  <div id="siswa" class="section">
     <h2>Daftar Siswa</h2>
-    <div class="dropdown">
-      <select>
-        <option>-- Pilih Kelas --</option>
-        <option>Kelas 1</option>
-        <option>Kelas 2</option>
-        <option>Kelas 3</option>
-        <option>Kelas 4</option>
-        <option>Kelas 5</option>
-        <option>Kelas 6</option>
-      </select>
-    </div>
+    <p>Kelas 1: 0 siswa</p>
+    <!-- Tambah daftar lainnya -->
   </div>
-</div>
 
-<div id="jadwal" class="section">
-  <div class="card">
+  <div id="jadwal" class="section">
     <h2>Jadwal Pelajaran</h2>
-    <div class="dropdown">
-      <select>
-        <option>-- Pilih Kelas --</option>
-        <option>Kelas 1</option>
-        <option>Kelas 2</option>
-        <option>Kelas 3</option>
-        <option>Kelas 4</option>
-        <option>Kelas 5</option>
-        <option>Kelas 6</option>
-      </select>
-    </div>
+    <p>Kelas 1: Belum ada jadwal</p>
   </div>
-</div>
 
-<div id="galeri" class="section">
-  <div class="card">
-    <h2>Galeri Foto</h2>
-    <p>(Foto-foto kegiatan akan ditampilkan di sini)</p>
+  <div id="galeri" class="section">
+    <h2>Galeri Kegiatan</h2>
+    <p>Belum ada foto</p>
   </div>
-</div>
 
-<div id="admin" class="section">
-  <div class="card">
+  <div id="admin" class="section">
     <h2>Panel Admin</h2>
-    <p>Login, Tambah Siswa, Ubah Jadwal, Ganti Latar, Galeri & Sambutan</p>
+    <p>Form login, tambah siswa, ubah latar, dll.</p>
   </div>
-</div>
 
-  </div>  <script>
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("menu");
+      menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
+    }
+
     function showSection(id) {
-      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-      document.getElementById('adminMenu').style.display = 'none';
-    }
+      const sections = document.querySelectorAll(".section");
+      sections.forEach(section => {
+        section.classList.remove("active");
+      });
+      document.getElementById(id).classList.add("active");
 
-    function toggleAdminMenu() {
-      const menu = document.getElementById('adminMenu');
-      menu.style.display = menu.style.display === 'none' ? 'block' : 'none';
+      // Tutup menu setelah klik
+      document.getElementById("menu").style.display = "none";
     }
-  </script></body>
+  </script>
+</body>
 </html>
