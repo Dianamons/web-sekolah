@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -7,175 +8,196 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
       background-color: #121212;
       color: white;
+      background-size: cover;
+      background-position: center;
     }
-    header, nav, main, footer {
+    header, nav, footer {
       padding: 10px;
+      text-align: center;
+    }
+    header {
+      background-color: #1e1e1e;
+    }
+    nav {
+      background-color: #1565c0;
+      display: flex;
+      justify-content: space-around;
+      padding: 15px 0;
     }
     nav button {
       background-color: #007BFF;
       color: white;
       border: none;
-      padding: 10px 15px;
-      margin: 5px;
-      border-radius: 5px;
+      padding: 12px 20px;
+      border-radius: 8px;
       cursor: pointer;
     }
-    section {
-      margin-top: 20px;
+    .section {
+      display: none;
+      padding: 15px;
+    }
+    .active {
+      display: block;
     }
     input, select, textarea {
-      padding: 5px;
-      margin: 5px;
-    }
-    .admin-panel {
-      background-color: #1e1e1e;
+      width: 100%;
+      margin: 10px 0;
       padding: 10px;
+      border-radius: 5px;
+      border: none;
+    }
+    .card {
+      background: #1e1e1e;
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
       border-radius: 10px;
     }
-    .hidden { display: none; }
   </style>
 </head>
 <body>
   <header>
     <h1>SD Negeri 032 Mamugo</h1>
-    <p><strong>Jam Operasional:</strong> 07.30 – 13.00 | <strong>Kontak:</strong> 0812xxxxxxx</p>
-  </header>  <nav>
-    <button onclick="showPage('beranda')">Beranda</button>
-    <button onclick="showPage('siswa')">Siswa</button>
-    <button onclick="showPage('jadwal')">Jadwal</button>
-    <button onclick="showPage('admin')">Admin</button>
-  </nav>  <main>
-    <section id="beranda">
-      <h2>Selamat Datang di SD Negeri 032 Mamugo</h2>
-      <p id="sambutan"></p>
-      <div id="pengumuman"></div>
-    </section><section id="siswa" class="hidden">
-  <h2>Daftar Siswa</h2>
-  <select onchange="tampilkanSiswa(this.value)">
-    <option value="">-- Pilih Kelas --</option>
-    <option value="1">Kelas 1</option>
-    <option value="2">Kelas 2</option>
-    <option value="3">Kelas 3</option>
-    <option value="4">Kelas 4</option>
-    <option value="5">Kelas 5</option>
-    <option value="6">Kelas 6</option>
-  </select>
-  <ul id="listSiswa"></ul>
-</section>
+    <p><strong>Jam Operasional:</strong> 07.30 - 13.00 | <strong>Kontak:</strong> 0812xxxxxxx</p>
+  </header>
 
-<section id="jadwal" class="hidden">
-  <h2>Jadwal Pelajaran</h2>
-  <select onchange="tampilkanJadwal(this.value)">
-    <option value="">-- Pilih Kelas --</option>
-    <option value="1">Kelas 1</option>
-    <option value="2">Kelas 2</option>
-    <option value="3">Kelas 3</option>
-    <option value="4">Kelas 4</option>
-    <option value="5">Kelas 5</option>
-    <option value="6">Kelas 6</option>
-  </select>
-  <ul id="listJadwal"></ul>
-</section>
+  <nav>
+    <button onclick="showSection('home')">Beranda</button>
+    <button onclick="showSection('siswa')">Siswa</button>
+    <button onclick="showSection('jadwal')">Jadwal</button>
+    <button onclick="showSection('galeri')">Galeri</button>
+    <button onclick="showSection('admin')">Admin</button>
+  </nav>
 
-<section id="admin" class="hidden">
-  <h2>Panel Admin</h2>
-  <div class="admin-panel">
-    <h3>Ganti Latar Belakang Beranda</h3>
-    <input type="text" id="bgBeranda" placeholder="Masukkan URL gambar">
-    <button onclick="gantiLatar('beranda')">Simpan Latar</button>
-
-    <h3>Ganti Latar Kelas</h3>
-    <select id="kelasBg">
-      <option value="1">Kelas 1</option>
-      <option value="2">Kelas 2</option>
-      <option value="3">Kelas 3</option>
-      <option value="4">Kelas 4</option>
-      <option value="5">Kelas 5</option>
-      <option value="6">Kelas 6</option>
-    </select>
-    <input type="text" id="bgKelas" placeholder="Masukkan URL gambar">
-    <button onclick="gantiLatarKelas()">Simpan Latar Kelas</button>
-
-    <h3>Tambah Siswa</h3>
-    <select id="kelasSiswa">
-      <option value="1">Kelas 1</option>
-      <option value="2">Kelas 2</option>
-      <option value="3">Kelas 3</option>
-      <option value="4">Kelas 4</option>
-      <option value="5">Kelas 5</option>
-      <option value="6">Kelas 6</option>
-    </select>
-    <input type="text" id="namaSiswa" placeholder="Nama siswa">
-    <input type="text" id="alamatSiswa" placeholder="Alamat siswa">
-    <button onclick="tambahSiswa()">Tambah</button>
-
-    <h3>Tambah Jadwal</h3>
-    <select id="kelasJadwal">
-      <option value="1">Kelas 1</option>
-      <option value="2">Kelas 2</option>
-      <option value="3">Kelas 3</option>
-      <option value="4">Kelas 4</option>
-      <option value="5">Kelas 5</option>
-      <option value="6">Kelas 6</option>
-    </select>
-    <textarea id="isiJadwal" placeholder="Tulis jadwal (misal: Senin - Matematika)"></textarea>
-    <button onclick="tambahJadwal()">Simpan Jadwal</button>
-
-    <h3>Pengumuman</h3>
-    <textarea id="info" placeholder="Tulis pengumuman"></textarea>
-    <button onclick="simpanInfo()">Simpan Info</button>
-
-    <h3>Sambutan Kepala Sekolah</h3>
-    <textarea id="sambutanIsi" placeholder="Tulis sambutan"></textarea>
-    <button onclick="simpanSambutan()">Simpan Sambutan</button>
+  <!-- Beranda -->
+  <div id="home" class="section active">
+    <h2>Selamat Datang di SD Negeri 032 Mamugo</h2>
+    <p id="sambutan"></p>
+    <div id="pengumuman"></div>
+    <div id="statistik"></div>
   </div>
-</section>
 
-  </main>  <script>
-    function showPage(id) {
-      document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
-      document.getElementById(id).classList.remove('hidden');
-      // ganti background jika kelas
-      if (id === 'siswa') document.body.style.backgroundImage = '';
+  <!-- Siswa -->
+  <div id="siswa" class="section">
+    <h2>Daftar Siswa</h2>
+    <select onchange="tampilkanSiswa(this.value)">
+      <option value="">-- Pilih Kelas --</option>
+      <option value="1">Kelas 1</option>
+      <option value="2">Kelas 2</option>
+      <option value="3">Kelas 3</option>
+      <option value="4">Kelas 4</option>
+      <option value="5">Kelas 5</option>
+      <option value="6">Kelas 6</option>
+    </select>
+    <div id="daftarSiswa"></div>
+  </div>
+
+  <!-- Jadwal -->
+  <div id="jadwal" class="section">
+    <h2>Jadwal Pelajaran</h2>
+    <select onchange="tampilkanJadwal(this.value)">
+      <option value="">-- Pilih Kelas --</option>
+      <option value="1">Kelas 1</option>
+      <option value="2">Kelas 2</option>
+      <option value="3">Kelas 3</option>
+      <option value="4">Kelas 4</option>
+      <option value="5">Kelas 5</option>
+      <option value="6">Kelas 6</option>
+    </select>
+    <div id="daftarJadwal"></div>
+  </div>
+
+  <!-- Galeri -->
+  <div id="galeri" class="section">
+    <h2>Galeri Kegiatan</h2>
+    <div id="galeriFoto"></div>
+  </div>
+
+  <!-- Admin -->
+  <div id="admin" class="section">
+    <h2>Panel Admin</h2>
+    <div>
+      <input type="password" id="pass" placeholder="Masukkan Password Admin" />
+      <button onclick="login()">Login</button>
+    </div>
+    <div id="panelAdmin" style="display:none">
+      <h3>Ganti Latar Belakang Beranda</h3>
+      <input type="text" id="bgBeranda" placeholder="Masukkan URL gambar">
+      <button onclick="gantiLatar('beranda')">Simpan Latar</button>
+
+      <h3>Ganti Latar Kelas</h3>
+      <select id="kelasBg">
+        <option value="1">Kelas 1</option>
+        <option value="2">Kelas 2</option>
+        <option value="3">Kelas 3</option>
+        <option value="4">Kelas 4</option>
+        <option value="5">Kelas 5</option>
+        <option value="6">Kelas 6</option>
+      </select>
+      <input type="text" id="bgKelas" placeholder="Masukkan URL gambar">
+      <button onclick="gantiLatarKelas()">Simpan Latar Kelas</button>
+
+      <h3>Tambah Siswa</h3>
+      <select id="kelasSiswa">
+        <option value="1">Kelas 1</option>
+        <option value="2">Kelas 2</option>
+        <option value="3">Kelas 3</option>
+        <option value="4">Kelas 4</option>
+        <option value="5">Kelas 5</option>
+        <option value="6">Kelas 6</option>
+      </select>
+      <input type="text" id="namaSiswa" placeholder="Nama siswa">
+      <input type="text" id="alamatSiswa" placeholder="Alamat siswa">
+      <button onclick="tambahSiswa()">Tambah</button>
+
+      <h3>Tambah Jadwal</h3>
+      <select id="kelasJadwal">
+        <option value="1">Kelas 1</option>
+        <option value="2">Kelas 2</option>
+        <option value="3">Kelas 3</option>
+        <option value="4">Kelas 4</option>
+        <option value="5">Kelas 5</option>
+        <option value="6">Kelas 6</option>
+      </select>
+      <textarea id="isiJadwal" placeholder="Tulis jadwal (misal: Senin - Matematika)"></textarea>
+      <button onclick="tambahJadwal()">Simpan Jadwal</button>
+
+      <h3>Pengumuman</h3>
+      <textarea id="info" placeholder="Tulis pengumuman"></textarea>
+      <button onclick="simpanInfo()">Simpan Info</button>
+
+      <h3>Sambutan Kepala Sekolah</h3>
+      <textarea id="sambutanIsi" placeholder="Tulis sambutan"></textarea>
+      <button onclick="simpanSambutan()">Simpan Sambutan</button>
+
+      <h3>Tambah Foto Galeri</h3>
+      <input type="text" id="fotoUrl" placeholder="URL Gambar">
+      <input type="text" id="fotoKet" placeholder="Keterangan">
+      <button onclick="tambahFoto()">Tambah Foto</button>
+    </div>
+  </div>
+
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      if (id === 'home') updateStatistik();
+      if (id === 'galeri') loadGaleri();
+      if (id === 'home') loadInfo();
     }
 
-    function tambahSiswa() {
-      const kelas = document.getElementById('kelasSiswa').value;
-      const nama = document.getElementById('namaSiswa').value;
-      const alamat = document.getElementById('alamatSiswa').value;
-      if (!kelas || !nama || !alamat) return alert('Isi semua data');
-      const key = `siswa_kelas_${kelas}`;
-      const data = JSON.parse(localStorage.getItem(key) || '[]');
-      data.push({ nama, alamat });
-      localStorage.setItem(key, JSON.stringify(data));
-      alert('Siswa ditambahkan');
-    }
-
-    function tampilkanSiswa(kelas) {
-      const key = `siswa_kelas_${kelas}`;
-      const data = JSON.parse(localStorage.getItem(key) || '[]');
-      const list = document.getElementById('listSiswa');
-      list.innerHTML = data.map(s => `<li>${s.nama} - ${s.alamat}</li>`).join('');
-      const bg = localStorage.getItem(`bg_kelas_${kelas}`);
-      if (bg) document.body.style.backgroundImage = `url(${bg})`;
-    }
-
-    function tambahJadwal() {
-      const kelas = document.getElementById('kelasJadwal').value;
-      const isi = document.getElementById('isiJadwal').value;
-      if (!kelas || !isi) return alert('Isi semua data');
-      localStorage.setItem(`jadwal_kelas_${kelas}`, isi);
-      alert('Jadwal disimpan');
-    }
-
-    function tampilkanJadwal(kelas) {
-      const isi = localStorage.getItem(`jadwal_kelas_${kelas}`) || 'Belum ada jadwal';
-      document.getElementById('listJadwal').innerHTML = `<li>${isi}</li>`;
+    function login() {
+      if (document.getElementById("pass").value === "admin123"){
+        document.getElementById("panelAdmin").style.display = "block";
+      } else {
+        alert("Password salah!");
+      }
     }
 
     function gantiLatar(tipe) {
@@ -189,29 +211,88 @@
     function gantiLatarKelas() {
       const kelas = document.getElementById('kelasBg').value;
       const url = document.getElementById('bgKelas').value;
-      if (url) localStorage.setItem(`bg_kelas_${kelas}`, url);
+      localStorage.setItem(`bg_kelas_${kelas}`, url);
+    }
+
+    function tambahSiswa() {
+      const kelas = document.getElementById('kelasSiswa').value;
+      const nama = document.getElementById('namaSiswa').value;
+      const alamat = document.getElementById('alamatSiswa').value;
+      if (!kelas || !nama || !alamat) return alert('Isi semua data');
+      let data = JSON.parse(localStorage.getItem(`siswa_kelas_${kelas}`) || '[]');
+      data.push({ nama, alamat });
+      localStorage.setItem(`siswa_kelas_${kelas}`, JSON.stringify(data));
+      alert('Siswa ditambahkan');
+    }
+
+    function tampilkanSiswa(kelas) {
+      let data = JSON.parse(localStorage.getItem(`siswa_kelas_${kelas}`) || '[]');
+      let list = document.getElementById('daftarSiswa');
+      list.innerHTML = data.map(s => `<li>${s.nama} - ${s.alamat}</li>`).join('');
+    }
+
+    function tambahJadwal() {
+      const kelas = document.getElementById('kelasJadwal').value;
+      const isi = document.getElementById('isiJadwal').value;
+      if (!kelas || !isi) return alert('Isi semua data');
+      localStorage.setItem(`jadwal_kelas_${kelas}`, isi);
+      alert('Jadwal disimpan');
+    }
+
+    function tampilkanJadwal(kelas) {
+      const isi = localStorage.getItem(`jadwal_kelas_${kelas}`) || 'Belum diisi';
+      document.getElementById('daftarJadwal').innerHTML = `<p>${isi}</p>`;
     }
 
     function simpanInfo() {
-      const isi = document.getElementById('info').value;
-      localStorage.setItem('pengumuman', isi);
-      document.getElementById('pengumuman').innerText = isi;
+      localStorage.setItem('pengumuman', document.getElementById('info').value);
+      document.getElementById('pengumuman').innerText = document.getElementById('info').value;
     }
 
     function simpanSambutan() {
-      const isi = document.getElementById('sambutanIsi').value;
-      localStorage.setItem('sambutan', isi);
-      document.getElementById('sambutan').innerText = isi;
+      localStorage.setItem('sambutan', document.getElementById('sambutanIsi').value);
+      document.getElementById('sambutan').innerText = document.getElementById('sambutanIsi').value;
     }
 
-    // Load saat halaman dibuka
-    window.onload = function () {
+    function loadInfo() {
+      document.getElementById('pengumuman').innerText = localStorage.getItem('pengumuman') || 'Tidak ada pengumuman.';
+      document.getElementById('sambutan').innerText = localStorage.getItem('sambutan') || 'Tidak ada sambutan.';
+    }
+
+    function updateStatistik() {
+      let html = '';
+      for (let i = 1; i <= 6; i++) {
+        let data = JSON.parse(localStorage.getItem(`siswa_kelas_${i}`) || '[]');
+        html += `<div class="card">Kelas ${i}: ${data.length} siswa</div>`;
+      }
+      document.getElementById('statistik').innerHTML = html;
+    }
+
+    function tambahFoto() {
+      const url = document.getElementById('fotoUrl').value;
+      const ket = document.getElementById('fotoKet').value;
+      if (!url || !ket) return;
+      let data = JSON.parse(localStorage.getItem('galeri') || '[]');
+      data.push({ url, ket });
+      localStorage.setItem('galeri', JSON.stringify(data));
+      alert('Foto ditambahkan');
+      document.getElementById('fotoUrl').value = '';
+      document.getElementById('fotoKet').value = '';
+    }
+
+    function loadGaleri() {
+      let data = JSON.parse(localStorage.getItem('galeri') || '[]');
+      let galeriDiv = document.getElementById('galeriFoto');
+      galeriDiv.innerHTML = data.map(d => `<div class="card"><img src="${d.url}" alt="foto"><p>${d.ket}</p></div>`).join('');
+    }
+
+    window.onload = function() {
       const bg = localStorage.getItem('bg_beranda');
       if (bg) document.body.style.backgroundImage = `url(${bg})`;
-      const pengumuman = localStorage.getItem('pengumuman');
-      if (pengumuman) document.getElementById('pengumuman').innerText = pengumuman;
-      const sambutan = localStorage.getItem('sambutan');
-      if (sambutan) document.getElementById('sambutan').innerText = sambutan;
+      loadInfo();
+      updateStatistik();
     }
-  </script></body>
+  </script>
+
+</body>
 </html>
