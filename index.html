@@ -6,114 +6,153 @@
   <title>SD Negeri 032 Mamugo</title>
   <style>
     body {
-      background-color: #111;
-      color: white;
-      font-family: sans-serif;
       margin: 0;
-      padding: 0;
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #fff;
     }
-    .navbar {
-      background-color: #000;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 10px;
-    }
-    .navbar h1 {
-      margin: 0;
-      font-size: 20px;
-    }
-    .menu {
-      display: none;
-      flex-direction: column;
-      background-color: #000;
-      position: absolute;
-      right: 10px;
-      top: 50px;
-      border: 1px solid #333;
-      z-index: 1;
-    }
-    .menu a {
+    header {
+      background-color: #007bff;
       color: white;
-      text-decoration: none;
-      padding: 10px;
-      background: #007bff;
-      margin: 5px;
       text-align: center;
+      padding: 16px 8px;
     }
-    .menu a:hover {
-      background: #0056b3;
+    header h1 {
+      margin: 0;
+      font-size: 22px;
     }
-    .hamburger {
-      font-size: 24px;
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      background-color: #1e1e1e;
+    }
+    nav button {
+      margin: 6px;
+      padding: 10px 16px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
     }
-    .section {
+    section {
       display: none;
       padding: 20px;
     }
-    .section.active {
+    section.active {
       display: block;
+    }
+    .admin-section input,
+    .admin-section textarea {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+      padding: 8px;
+      border-radius: 4px;
+      border: none;
+    }
+    .admin-section button {
+      background-color: #007bff;
+      color: white;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      margin-top: 5px;
+    }
+    .sambutan, .pengumuman, .agenda {
+      background: #1e1e1e;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 8px;
+    }
+    img.galeri-foto {
+      width: 100%;
+      max-width: 300px;
+      margin: 8px 0;
+      border-radius: 10px;
     }
   </style>
 </head>
 <body>
 
-  <div class="navbar">
-    <h1>SD Negeri 032 Mamugo</h1>
-    <div class="hamburger" onclick="toggleMenu()">☰</div>
-    <div class="menu" id="menu">
-      <a href="#beranda" onclick="showSection('beranda')">Beranda</a>
-      <a href="#siswa" onclick="showSection('siswa')">Siswa</a>
-      <a href="#jadwal" onclick="showSection('jadwal')">Jadwal</a>
-      <a href="#galeri" onclick="showSection('galeri')">Galeri</a>
-      <a href="#admin" onclick="showSection('admin')">Admin</a>
-    </div>
-  </div>
+<header>
+  <h1>SD Negeri 032 Mamugo</h1>
+</header>
 
-  <div id="beranda" class="section active">
-    <h2>Selamat Datang di SD Negeri 032 Mamugo</h2>
-    <p><strong>Jam Operasional:</strong> 07.30 - 13.00</p>
-    <p><strong>Kontak:</strong> 0812xxxxxxxx</p>
-  </div>
+<nav>
+  <button onclick="showSection('beranda')">Beranda</button>
+  <button onclick="showSection('siswa')">Siswa</button>
+  <button onclick="showSection('jadwal')">Jadwal</button>
+  <button onclick="showSection('galeri')">Galeri</button>
+  <button onclick="showSection('admin')">Admin</button>
+</nav>
 
-  <div id="siswa" class="section">
-    <h2>Daftar Siswa</h2>
-    <p>Kelas 1: 0 siswa</p>
-    <!-- Tambah daftar lainnya -->
-  </div>
+<section id="beranda" class="active">
+  <h2>Selamat Datang</h2>
+  <p><strong>Jam Operasional:</strong> 07.30 – 13.00</p>
+  <p><strong>Kontak:</strong> 0812xxxxxxx</p>
+  <div class="sambutan"><strong>Sambutan Kepala Sekolah:</strong><br>Selamat datang di website resmi SD Negeri 032 Mamugo.</div>
+  <div class="pengumuman"><strong>Pengumuman:</strong><br>Libur 1 Mei 2025.</div>
+  <div class="agenda"><strong>Agenda Mingguan:</strong><br>Senin: Upacara<br>Jumat: Pramuka</div>
+</section>
 
-  <div id="jadwal" class="section">
-    <h2>Jadwal Pelajaran</h2>
-    <p>Kelas 1: Belum ada jadwal</p>
-  </div>
+<section id="siswa">
+  <h2>Daftar Siswa</h2>
+  <p>Pilih kelas untuk melihat daftar siswa:</p>
+  <button onclick="alert('Jumlah siswa kelas 1: 25')">Kelas 1</button>
+  <button onclick="alert('Jumlah siswa kelas 2: 22')">Kelas 2</button>
+  <button onclick="alert('Jumlah siswa kelas 3: 20')">Kelas 3</button>
+</section>
 
-  <div id="galeri" class="section">
-    <h2>Galeri Kegiatan</h2>
-    <p>Belum ada foto</p>
-  </div>
+<section id="jadwal">
+  <h2>Jadwal Pelajaran</h2>
+  <p>Pilih kelas:</p>
+  <button onclick="alert('Jadwal kelas 1: Senin - Matematika')">Kelas 1</button>
+  <button onclick="alert('Jadwal kelas 2: Selasa - IPA')">Kelas 2</button>
+</section>
 
-  <div id="admin" class="section">
-    <h2>Panel Admin</h2>
-    <p>Form login, tambah siswa, ubah latar, dll.</p>
-  </div>
+<section id="galeri">
+  <h2>Galeri Kegiatan</h2>
+  <img src="https://i.imgur.com/YOUR_IMAGE.jpg" class="galeri-foto" alt="Kegiatan 1">
+  <p>Kegiatan Pramuka Jumat lalu.</p>
+</section>
 
-  <script>
-    function toggleMenu() {
-      const menu = document.getElementById("menu");
-      menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
-    }
+<section id="admin" class="admin-section">
+  <h2>Panel Admin</h2>
+  <label>Login Admin</label>
+  <input type="text" placeholder="Username">
+  <input type="password" placeholder="Password">
+  <button onclick="alert('Login belum diaktifkan')">Login</button>
 
-    function showSection(id) {
-      const sections = document.querySelectorAll(".section");
-      sections.forEach(section => {
-        section.classList.remove("active");
-      });
-      document.getElementById(id).classList.add("active");
+  <h3>Tambah Siswa</h3>
+  <input type="text" placeholder="Nama Siswa">
+  <select>
+    <option>Kelas 1</option><option>Kelas 2</option>
+  </select>
+  <button>Tambah Siswa</button>
 
-      // Tutup menu setelah klik
-      document.getElementById("menu").style.display = "none";
-    }
-  </script>
+  <h3>Tambah Jadwal</h3>
+  <input type="text" placeholder="Pelajaran Hari Senin">
+  <button>Simpan Jadwal</button>
+
+  <h3>Upload Latar Belakang</h3>
+  <input type="text" placeholder="URL Gambar dari Imgur">
+  <button>Ganti Latar</button>
+
+  <h3>Foto Galeri</h3>
+  <input type="text" placeholder="URL Foto dari Imgur">
+  <textarea placeholder="Keterangan Foto"></textarea>
+  <button>Tambah ke Galeri</button>
+</section>
+
+<script>
+  function showSection(id) {
+    document.querySelectorAll("section").forEach(s => s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+  }
+</script>
+
 </body>
 </html>
