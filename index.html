@@ -165,13 +165,9 @@
       </div>
       <div class="admin-section">
         <h3>Upload Foto Kegiatan</h3>
-<input type="file" id="uploadImgurFile" accept="image/*" />
-<button onclick="uploadToImgur()">Upload ke Imgur</button>
-<input id="fotoUrl" placeholder="URL Gambar (otomatis setelah upload)" readonly />
-<input id="fotoKeterangan" placeholder="Keterangan Foto" />
-<button onclick="tambahFotoKegiatan()">Tambah Foto</button>
-
-<div id="galeriFoto" style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;"></div>
+        <input id="fotoUrl" placeholder="URL Gambar (Imgur)" />
+        <input id="fotoKeterangan" placeholder="Keterangan Foto" />
+        <button onclick="tambahFotoKegiatan()">Tambah Foto</button>
       </div>
       <div class="admin-section">
         <h3>Upload Logo Sekolah</h3>
@@ -179,66 +175,7 @@
         <button onclick="simpanLogoSekolah()">Simpan Logo</button>
       </div>
     </div>
-  </section>  <script><script>
-  const IMGUR_CLIENT_ID = '546f1d6d74c97e0';
-
-  function uploadToImgur() {
-    const fileInput = document.getElementById('uploadImgurFile');
-    const file = fileInput.files[0];
-    if (!file) return alert('Pilih gambar terlebih dahulu.');
-
-    const reader = new FileReader();
-    reader.onloadend = function () {
-      fetch('https://api.imgur.com/3/image', {
-        method: 'POST',
-        headers: {
-          Authorization: 'Client-ID ' + IMGUR_CLIENT_ID,
-          Accept: 'application/json',
-        },
-        body: new URLSearchParams({
-          image: reader.result.split(',')[1],
-          type: 'base64',
-        }),
-      })
-        .then(res => res.json())
-        .then(data => {
-          if (data.success) {
-            document.getElementById('fotoUrl').value = data.data.link;
-            alert('Upload berhasil!');
-          } else {
-            console.error(data);
-            alert('Gagal upload ke Imgur.');
-          }
-        })
-        .catch(err => {
-          console.error(err);
-          alert('Terjadi kesalahan saat mengupload.');
-        });
-    };
-    reader.readAsDataURL(file);
-  }
-
-  function tambahFotoKegiatan() {
-    const url = document.getElementById('fotoUrl').value;
-    const keterangan = document.getElementById('fotoKeterangan').value;
-    if (!url || !keterangan) {
-      alert("Lengkapi URL dan keterangan!");
-      return;
-    }
-
-    const galeri = document.getElementById("galeriFoto");
-    const item = document.createElement("div");
-    item.innerHTML = `
-      <img src="${url}" alt="${keterangan}" style="width: 150px; height: auto; border-radius: 8px;" />
-      <p style="text-align:center">${keterangan}</p>
-    `;
-    galeri.appendChild(item);
-
-    document.getElementById('fotoUrl').value = '';
-    document.getElementById('fotoKeterangan').value = '';
-    document.getElementById('uploadImgurFile').value = '';
-  }
-</script>
+  </section>  <script>
     function showSection(id) {
       document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
       document.getElementById(id).classList.remove('hidden');
