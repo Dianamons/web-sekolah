@@ -1,215 +1,203 @@
-<!DOCTYPE html><html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SD Negeri 032 Mamugo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SDN 032 Mamugo</title>
   <style>
     body {
+      font-family: sans-serif;
       margin: 0;
-      font-family: Arial, sans-serif;
       background-size: cover;
-      background-position: center;
-      color: white;
+      background-repeat: no-repeat;
     }
-    header {
-      background-color: #007bff;
-      padding: 1rem;
-      text-align: center;
+    header, nav, section, footer {
+      padding: 10px;
     }
-    header img {
-      max-height: 100px;
-      border-radius: 10px;
+    nav a {
+      margin: 10px;
+      text-decoration: none;
     }
-    nav {
-      display: flex;
-      justify-content: center;
-      background: #0056b3;
-    }
-    nav button {
-      background: none;
-      border: none;
-      color: white;
-      padding: 1rem;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-    nav button:hover {
-      background: #004494;
-    }
-    section {
-      padding: 1rem;
-    }
-    .admin-section {
-      background: rgba(0,0,0,0.5);
-      margin-top: 1rem;
-      padding: 1rem;
-      border-radius: 8px;
-    }
-    input, select, textarea, button {
-      display: block;
-      margin: 0.5rem 0;
-      padding: 0.5rem;
-      width: 100%;
-      max-width: 400px;
+    #adminPanel {
+      display: none;
+      background: #f4f4f4;
+      padding: 10px;
+      border: 1px solid #ccc;
     }
     .hidden {
       display: none;
     }
-    #foto-kegiatan img {
-      max-width: 250px;
-      border-radius: 10px;
-    }
-    #foto-kegiatan {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+    .preview {
+      max-width: 200px;
+      margin-top: 10px;
     }
   </style>
 </head>
 <body>
-  <header>
-    <img id="logo-header" src="" alt="Logo Sekolah" />
-    <p>NPSN: 10405282 | Akreditasi: A<br>
-    SK Pendirian: 01 Januari 1998 | SK Operasional: 421/DISDIK/-PRG/1219 (15 Mei 2008)</p>
-  </header>
-  <nav>
-    <button onclick="showSection('beranda')">Beranda</button>
-    <button onclick="showSection('siswa')">Siswa</button>
-    <button onclick="showSection('jadwal')">Jadwal</button>
-    <button onclick="showSection('admin')">Admin</button>
-  </nav>
-  <section id="beranda">
-    <h2>Kegiatan SD Negeri 032 Mamugo</h2>
-    <div id="pengumuman"></div>
-    <div id="agenda"></div>
-    <div id="foto-kegiatan"></div>
-    <div id="sambutan"></div>
-  </section>
-  <section id="admin" class="hidden">
-    <h2>Panel Admin</h2>
-    <div id="form-login">
-      <input id="admin-user" placeholder="Username" />
-      <input id="admin-pass" type="password" placeholder="Password" />
-      <button onclick="loginAdmin()">Login</button>
-    </div>
-    <div id="admin-panel" class="hidden">
-      <div class="admin-section">
-        <h3>Upload Foto Kegiatan</h3>
-        <input type="file" id="fotoFile" accept="image/*" />
-        <input id="fotoKeterangan" placeholder="Keterangan Foto" />
-        <button onclick="uploadFotoKegiatan()">Tambah Foto</button>
-      </div>
-      <div class="admin-section">
-        <h3>Upload Logo Sekolah</h3>
-        <input type="file" id="logoFile" accept="image/*" />
-        <button onclick="uploadLogoSekolah()">Simpan Logo</button>
-      </div>
-      <div class="admin-section">
-        <h3>Upload Latar Belakang Beranda</h3>
-        <input type="file" id="latarFile" accept="image/*" />
-        <button onclick="uploadLatarBelakang()">Simpan Latar Beranda</button>
-      </div>
-    </div>
-  </section>
-  <div id="foto-kegiatan"></div>
-  <script>
-    const CLIENT_ID = 'e6d19e87e0b1c41';function showSection(id) {
-  document.querySelectorAll('section').forEach(s => s.classList.add('hidden'));
-  document.getElementById(id).classList.remove('hidden');
-}
 
-function loginAdmin() {
-  const u = document.getElementById('admin-user').value;
-  const p = document.getElementById('admin-pass').value;
-  if (u === 'admin' && p === '1234') {
-    document.getElementById('form-login').classList.add('hidden');
-    document.getElementById('admin-panel').classList.remove('hidden');
-  } else {
-    alert('Login gagal');
+<header>
+  <h1>SD Negeri 032 Mamugo</h1>
+  <img id="logoSekolah" src="" alt="Logo Sekolah" style="max-height: 100px;">
+</header>
+
+<nav>
+  <a href="#" onclick="tampilkanHalaman('beranda')">Beranda</a>
+  <a href="#" onclick="tampilkanHalaman('siswa')">Siswa</a>
+  <a href="#" onclick="tampilkanHalaman('jadwal')">Jadwal</a>
+  <a href="#" onclick="tampilkanHalaman('galeri')">Galeri</a>
+  <a href="#" onclick="tampilkanHalaman('adminLogin')">Admin</a>
+</nav>
+
+<section id="beranda">
+  <h2>Beranda</h2>
+  <p>Selamat datang di website SD Negeri 032 Mamugo.</p>
+</section>
+
+<section id="siswa" class="hidden">
+  <h2>Data Siswa</h2>
+  <div id="daftarSiswa">Belum ada data siswa.</div>
+</section>
+
+<section id="jadwal" class="hidden">
+  <h2>Jadwal Pelajaran</h2>
+  <div id="jadwalPelajaran">Belum ada jadwal.</div>
+</section>
+
+<section id="galeri" class="hidden">
+  <h2>Galeri Kegiatan</h2>
+  <div id="galeriKegiatan"></div>
+</section>
+
+<section id="adminLogin" class="hidden">
+  <h2>Login Admin</h2>
+  <input type="password" id="adminPassword" placeholder="Masukkan password admin" />
+  <button onclick="loginAdmin()">Login</button>
+</section>
+
+<section id="adminPanel" class="hidden">
+  <h2>Panel Admin</h2>
+  <button onclick="logoutAdmin()">Logout</button>
+
+  <h3>Upload Logo Sekolah</h3>
+  <input type="file" id="logoInput" />
+  <button onclick="uploadImage('logoInput', 'logoSekolah')">Upload</button>
+  <img id="logoPreview" class="preview" />
+
+  <h3>Upload Latar Belakang</h3>
+  <input type="file" id="bgInput" />
+  <button onclick="uploadImage('bgInput', 'bodyBg')">Upload</button>
+  <img id="bgPreview" class="preview" />
+
+  <h3>Upload Foto Kegiatan</h3>
+  <input type="file" id="fotoKegiatanInput" />
+  <input type="text" id="kegiatanKeterangan" placeholder="Keterangan kegiatan" />
+  <button onclick="uploadFotoKegiatan()">Upload</button>
+  <img id="fotoPreview" class="preview" />
+</section>
+
+<script>
+  const IMGUR_CLIENT_ID = '54670c2031e5f6a';
+
+  function tampilkanHalaman(id) {
+    document.querySelectorAll('section').forEach(sec => sec.classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
   }
-}
 
-async function uploadToImgur(file, callback) {
-  const formData = new FormData();
-  formData.append('image', file);
-  const response = await fetch('https://api.imgur.com/3/image', {
-    method: 'POST',
-    headers: {
-      Authorization: 'Client-ID ' + CLIENT_ID
-    },
-    body: formData
-  });
-  const data = await response.json();
-  if (data.success) {
-    callback(data.data.link);
-  } else {
-    alert('Upload gagal');
+  function loginAdmin() {
+    const password = document.getElementById('adminPassword').value;
+    if (password === 'admin123') {
+      document.getElementById('adminLogin').classList.add('hidden');
+      document.getElementById('adminPanel').classList.remove('hidden');
+    } else {
+      alert('Password salah!');
+    }
   }
-}
 
-function uploadFotoKegiatan() {
-  const file = document.getElementById('fotoFile').files[0];
-  const ket = document.getElementById('fotoKeterangan').value;
-  if (file && ket) {
-    uploadToImgur(file, function(url) {
-      const galeri = JSON.parse(localStorage.getItem('galeri')) || [];
-      galeri.unshift({ url, ket });
-      localStorage.setItem('galeri', JSON.stringify(galeri));
-      tampilkanFotoKegiatan();
+  function logoutAdmin() {
+    document.getElementById('adminPanel').classList.add('hidden');
+    tampilkanHalaman('beranda');
+  }
+
+  function uploadImage(inputId, targetId) {
+    const file = document.getElementById(inputId).files[0];
+    const reader = new FileReader();
+    reader.onloadend = function () {
+      const base64 = reader.result.split(',')[1];
+      fetch('https://api.imgur.com/3/image', {
+        method: 'POST',
+        headers: {
+          Authorization: 'Client-ID ' + IMGUR_CLIENT_ID,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ image: base64, type: 'base64' }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          const link = data.data.link;
+          if (targetId === 'logoSekolah') {
+            document.getElementById('logoSekolah').src = link;
+            localStorage.setItem('logoSekolah', link);
+          } else if (targetId === 'bodyBg') {
+            document.body.style.backgroundImage = `url(${link})`;
+            localStorage.setItem('bodyBg', link);
+          }
+        });
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+
+  function uploadFotoKegiatan() {
+    const file = document.getElementById('fotoKegiatanInput').files[0];
+    const keterangan = document.getElementById('kegiatanKeterangan').value;
+    const reader = new FileReader();
+    reader.onloadend = function () {
+      const base64 = reader.result.split(',')[1];
+      fetch('https://api.imgur.com/3/image', {
+        method: 'POST',
+        headers: {
+          Authorization: 'Client-ID ' + IMGUR_CLIENT_ID,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ image: base64, type: 'base64' }),
+      })
+        .then(res => res.json())
+        .then(data => {
+          const link = data.data.link;
+          const galeriDiv = document.getElementById('galeriKegiatan');
+          const el = document.createElement('div');
+          el.innerHTML = `<img src="${link}" style="max-width:200px;"><p>${keterangan}</p>`;
+          galeriDiv.appendChild(el);
+
+          // Simpan ke localStorage
+          const galeri = JSON.parse(localStorage.getItem('galeri') || '[]');
+          galeri.push({ link, keterangan });
+          localStorage.setItem('galeri', JSON.stringify(galeri));
+        });
+    };
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  }
+
+  // Load data dari localStorage saat halaman dibuka
+  window.onload = () => {
+    const logo = localStorage.getItem('logoSekolah');
+    if (logo) document.getElementById('logoSekolah').src = logo;
+
+    const bg = localStorage.getItem('bodyBg');
+    if (bg) document.body.style.backgroundImage = `url(${bg})`;
+
+    const galeri = JSON.parse(localStorage.getItem('galeri') || '[]');
+    galeri.forEach(item => {
+      const galeriDiv = document.getElementById('galeriKegiatan');
+      const el = document.createElement('div');
+      el.innerHTML = `<img src="${item.link}" style="max-width:200px;"><p>${item.keterangan}</p>`;
+      galeriDiv.appendChild(el);
     });
-  }
-}
+  };
+</script>
 
-function uploadLogoSekolah() {
-  const file = document.getElementById('logoFile').files[0];
-  if (file) {
-    uploadToImgur(file, function(url) {
-      localStorage.setItem('logo-sekolah', url);
-      tampilkanLogoSekolah();
-    });
-  }
-}
-
-function uploadLatarBelakang() {
-  const file = document.getElementById('latarFile').files[0];
-  if (file) {
-    uploadToImgur(file, function(url) {
-      localStorage.setItem('bg-beranda', url);
-      setBackground('beranda');
-    });
-  }
-}
-
-function tampilkanFotoKegiatan() {
-  const galeri = JSON.parse(localStorage.getItem('galeri')) || [];
-  const kontainer = document.getElementById('foto-kegiatan');
-  kontainer.innerHTML = '';
-  galeri.forEach(foto => {
-    const div = document.createElement('div');
-    div.innerHTML = `<img src="${foto.url}" alt="Kegiatan"><p>${foto.ket}</p>`;
-    kontainer.appendChild(div);
-  });
-}
-
-function tampilkanLogoSekolah() {
-  const logo = localStorage.getItem('logo-sekolah');
-  const img = document.getElementById('logo-header');
-  if (logo && img) {
-    img.src = logo;
-  }
-}
-
-function setBackground(mode) {
-  if (mode === 'beranda') {
-    document.body.style.backgroundImage = `url('${localStorage.getItem('bg-beranda') || ''}')`;
-  }
-}
-
-showSection('beranda');
-setBackground('beranda');
-tampilkanFotoKegiatan();
-tampilkanLogoSekolah();
-
-  </script>
 </body>
 </html>
