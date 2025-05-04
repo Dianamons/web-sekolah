@@ -106,7 +106,7 @@
   function loginAdmin() {
     const password = document.getElementById('adminPassword').value;
     if (password === 'admin123') {
-      document.getElementById('adminLogin').classList.add('hidden');
+      document.getElementyId('adminLogin').classList.add('hidden');
       document.getElementById('adminPanel').classList.remove('hidden');
     } else {
       alert('Password salah!');
@@ -173,31 +173,80 @@
           // Simpan ke localStorage
           const galeri = JSON.parse(localStorage.getItem('galeri') || '[]');
           galeri.push({ link, keterangan });
-          localStorage.setItem('galeri', JSON.stringify(galeri));
-        });
-    };
-    if (file) {
-      reader.readAsDataURL(file);
+<!DOCTYPE html><html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Admin SD Negeri 032 Mamugo</title>
+  <style>
+    body { font-family: sans-serif; padding: 20px; }
+    .hidden { display: none; }
+    input, button { margin: 5px 0; padding: 8px; }
+    #admin-panel { margin-top: 20px; }
+    img { max-width: 200px; margin-top: 10px; }
+  </style>
+</head>
+<body>
+  <h2>Login Admin</h2>
+  <div id="form-login">
+    <input id="admin-user" placeholder="Username"><br>
+    <input id="admin-pass" type="password" placeholder="Password"><br>
+    <button onclick="loginAdmin()">Login</button>
+  </div>  <div id="admin-panel" class="hidden">
+    <h2>Panel Admin</h2><h3>Upload Logo Sekolah</h3>
+<input type="file" id="logo-upload"><br>
+<button onclick="uploadImage('logo-upload', 'logo-preview')">Upload Logo</button><br>
+<img id="logo-preview">
+
+<h3>Upload Latar Belakang</h3>
+<input type="file" id="bg-upload"><br>
+<button onclick="uploadImage('bg-upload', 'bg-preview')">Upload Latar</button><br>
+<img id="bg-preview">
+
+<h3>Upload Foto Kegiatan</h3>
+<input type="file" id="kegiatan-upload"><br>
+<button onclick="uploadImage('kegiatan-upload', 'kegiatan-preview')">Upload Foto Kegiatan</button><br>
+<img id="kegiatan-preview">
+
+  </div>  <script>
+    const clientId = 'ab28686376df70d'; // ID yang kamu kasih sebelumnya
+
+    function loginAdmin() {
+      const u = document.getElementById('admin-user').value;
+      const p = document.getElementById('admin-pass').value;
+      if (u === 'admin' && p === '1234') {
+        document.getElementById('form-login').classList.add('hidden');
+        document.getElementById('admin-panel').classList.remove('hidden');
+        alert('Login berhasil!');
+      } else {
+        alert('Login gagal. Cek username dan password.');
+      }
     }
-  }
 
-  // Load data dari localStorage saat halaman dibuka
-  window.onload = () => {
-    const logo = localStorage.getItem('logoSekolah');
-    if (logo) document.getElementById('logoSekolah').src = logo;
+    function uploadImage(inputId, previewId) {
+      const file = document.getElementById(inputId).files[0];
+      const formData = new FormData();
+      formData.append("image", file);
 
-    const bg = localStorage.getItem('bodyBg');
-    if (bg) document.body.style.backgroundImage = `url(${bg})`;
-
-    const galeri = JSON.parse(localStorage.getItem('galeri') || '[]');
-    galeri.forEach(item => {
-      const galeriDiv = document.getElementById('galeriKegiatan');
-      const el = document.createElement('div');
-      el.innerHTML = `<img src="${item.link}" style="max-width:200px;"><p>${item.keterangan}</p>`;
-      galeriDiv.appendChild(el);
-    });
-  };
-</script>
-
-</body>
+      fetch("https://api.imgur.com/3/image", {
+        method: "POST",
+        headers: {
+          Authorization: "Client-ID " + clientId
+        },
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          document.getElementById(previewId).src = data.data.link;
+          alert("Upload berhasil!");
+        } else {
+          alert("Upload gagal: " + data.data.error);
+        }
+      })
+      .catch(err => {
+        alert("Terjadi kesalahan saat upload: " + err.message);
+      });
+    }
+  </script></body>
 </html>
