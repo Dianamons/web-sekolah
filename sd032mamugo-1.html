@@ -1,0 +1,232 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SD Negeri 032 Mamugo</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-size: cover;
+      background-position: center;
+      color: white;
+    }
+    header {
+      background-color: #007bff;
+      padding: 1rem;
+      text-align: center;
+    }
+    header img {
+      max-height: 100px;
+      border-radius: 10px;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      background: #0056b3;
+      flex-wrap: wrap;
+    }
+    nav button {
+      background: none;
+      border: none;
+      color: white;
+      padding: 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    nav button:hover {
+      background: #004494;
+    }
+    section {
+      padding: 1rem;
+    }
+    .admin-section {
+      background: rgba(0,0,0,0.5);
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+    input, select, textarea, button {
+      display: block;
+      margin: 0.5rem 0;
+      padding: 0.5rem;
+      width: 100%;
+      max-width: 400px;
+    }
+    .hidden {
+      display: none;
+    }
+    #foto-kegiatan img {
+      max-width: 250px;
+      border-radius: 10px;
+    }
+    #foto-kegiatan {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img id="logo-header" src="" alt="Logo Sekolah" />
+    <p>NPSN: 10405282 | Akreditasi: A<br>
+    SK Pendirian: 01 Januari 1998 | SK Operasional: 421/DISDIK/-PRG/1219 (15 Mei 2008)</p>
+  </header>
+
+  <nav>
+    <button onclick="showSection('beranda')">Beranda</button>
+    <button onclick="showSection('siswa')">Siswa</button>
+    <button onclick="showSection('jadwal')">Jadwal</button>
+    <button onclick="showSection('pengumuman')">Pengumuman</button>
+    <button onclick="showSection('galeri')">Galeri</button>
+    <button onclick="showSection('admin')">Admin</button>
+    <div style="background-color: #E9F3FF; border-left: 5px solid #007BFF; padding: 15px; border-radius: 8px; text-align: center; margin: 10px;">
+      <a href="dasbor-wali.html" target="_blank">
+        <button class="btn btn-secondary mt-2">DASBOR WALI</button>
+      </a>
+    </div>
+  </nav>
+
+  <section id="beranda">Selamat datang di SD Negeri 032 Mamugo</section>
+
+  <section id="siswa" class="hidden">
+    <h2>Daftar Siswa per Kelas</h2>
+    <select id="kelas-siswa">
+      <option value="1A">Kelas 1A</option>
+      <option value="2A">Kelas 2A</option>
+    </select>
+    <ul id="daftar-siswa"></ul>
+  </section>
+
+  <section id="jadwal" class="hidden">
+    <h2>Jadwal Pelajaran</h2>
+    <select id="kelas-jadwal">
+      <option value="1A">Kelas 1A</option>
+      <option value="2A">Kelas 2A</option>
+    </select>
+    <ul id="daftar-jadwal"></ul>
+  </section>
+
+  <section id="pengumuman" class="hidden">
+    <h2>Pengumuman Sekolah</h2>
+    <div id="kotak-pengumuman" style="background:#007BFF; padding:10px; border-radius:8px;"></div>
+  </section>
+
+  <section id="galeri" class="hidden">
+    <h2>Galeri Foto Kegiatan</h2>
+    <div id="foto-kegiatan"></div>
+  </section>
+
+  <section id="admin" class="hidden admin-section">
+    <h2>Panel Admin</h2>
+    <input type="password" id="admin-password" placeholder="Masukkan password admin" />
+    <button onclick="loginAdmin()">Login</button>
+
+    <div id="admin-tools" class="hidden">
+      <h3>Ubah Latar Belakang</h3>
+      <input type="text" id="background-url" placeholder="Masukkan URL gambar" />
+      <button onclick="ubahBackground()">Terapkan</button>
+
+      <h3>Unggah Foto Kegiatan</h3>
+      <input type="file" id="upload-gambar" />
+      <input type="text" id="keterangan-gambar" placeholder="Keterangan gambar" />
+      <button onclick="uploadKeImgur()">Unggah ke Galeri</button>
+
+      <h3>Tambah Pengumuman</h3>
+      <textarea id="isi-pengumuman" placeholder="Tulis pengumuman..."></textarea>
+      <button onclick="tambahPengumuman()">Tambah</button>
+    </div>
+  </section>
+
+  <script>
+    const siswa = {
+      "1A": ["Ani", "Budi", "Citra"],
+      "2A": ["Dedi", "Eka", "Farah"]
+    };
+    const jadwal = {
+      "1A": ["Senin: Matematika", "Selasa: Bahasa Indonesia"],
+      "2A": ["Senin: IPA", "Selasa: IPS"]
+    };
+
+    function showSection(id) {
+      document.querySelectorAll("section").forEach(s => s.classList.add("hidden"));
+      document.getElementById(id).classList.remove("hidden");
+
+      if (id === "siswa") {
+        tampilkanSiswa();
+      } else if (id === "jadwal") {
+        tampilkanJadwal();
+      }
+    }
+
+    function tampilkanSiswa() {
+      const kelas = document.getElementById("kelas-siswa").value;
+      const ul = document.getElementById("daftar-siswa");
+      ul.innerHTML = siswa[kelas].map(nama => `<li>${nama}</li>`).join("");
+    }
+
+    function tampilkanJadwal() {
+      const kelas = document.getElementById("kelas-jadwal").value;
+      const ul = document.getElementById("daftar-jadwal");
+      ul.innerHTML = jadwal[kelas].map(item => `<li>${item}</li>`).join("");
+    }
+
+    function loginAdmin() {
+      const pass = document.getElementById("admin-password").value;
+      if (pass === "admin123") {
+        document.getElementById("admin-tools").classList.remove("hidden");
+        alert("Login berhasil");
+      } else {
+        alert("Password salah!");
+      }
+    }
+
+    function ubahBackground() {
+      const url = document.getElementById("background-url").value;
+      document.body.style.backgroundImage = `url('${url}')`;
+    }
+
+    function uploadKeImgur() {
+      const file = document.getElementById("upload-gambar").files[0];
+      const keterangan = document.getElementById("keterangan-gambar").value;
+      const reader = new FileReader();
+      reader.onloadend = function () {
+        fetch("https://api.imgur.com/3/image", {
+          method: "POST",
+          headers: {
+            Authorization: "Client-ID 1377f65a41e06f8"
+          },
+          body: new URLSearchParams({
+            image: reader.result.split(",")[1],
+            type: "base64"
+          })
+        })
+        .then(res => res.json())
+        .then(data => {
+          const url = data.data.link;
+          const img = document.createElement("img");
+          img.src = url;
+          img.alt = keterangan;
+          document.getElementById("foto-kegiatan").appendChild(img);
+        });
+      };
+      if (file) {
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function tambahPengumuman() {
+      const isi = document.getElementById("isi-pengumuman").value;
+      const kotak = document.getElementById("kotak-pengumuman");
+      kotak.innerHTML += `<p>${isi}</p>`;
+      document.getElementById("isi-pengumuman").value = "";
+    }
+
+    document.getElementById("kelas-siswa").onchange = tampilkanSiswa;
+    document.getElementById("kelas-jadwal").onchange = tampilkanJadwal;
+  </script>
+</body>
+</html>
